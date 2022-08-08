@@ -1,14 +1,12 @@
-from django.shortcuts import HttpResponse, get_object_or_404
+from django.shortcuts import HttpResponse, get_object_or_404, render
 
 from store.models import Book
 
 
 def books(request):
-    books_titles = [book.title for book in Book.objects.all()]
-
-    return HttpResponse("<br>".join(books_titles))
+    return render(request,"index.html",context={"book":Book.objects.all()})
 
 
 def book(request, book_pk):
-    book = get_object_or_404(Book, pk=book_pk)
-    return HttpResponse(book.title)
+    b = get_object_or_404(Book, pk=book_pk)
+    return render(request,"book.html",context={"book":b})
